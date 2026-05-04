@@ -269,6 +269,64 @@ input[type=range]{accent-color:var(--g);width:130px}
 
 /* ══ EMPTY ══ */
 .empty-msg{padding:32px;text-align:center;color:var(--txt2);font-size:12px}
+.ia-match{background:var(--gl);color:var(--g);border-radius:6px;padding:6px 10px;margin-bottom:6px;font-size:12px}
+.ia-nomatch{background:var(--amberl);color:var(--amber);border-radius:6px;padding:6px 10px;margin-bottom:6px;font-size:12px}
+
+/* ══ HOY / TAREAS ══ */
+.hoy-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px;margin-top:14px}
+.tarea-card{background:var(--card);border-radius:var(--radius);border:1px solid var(--bdr);
+  padding:14px 16px;box-shadow:var(--shadow);cursor:pointer;transition:all .15s}
+.tarea-card:hover{box-shadow:var(--shadow-md);border-color:var(--g)}
+.tarea-card.vencida{border-left:4px solid var(--red)}
+.tarea-card.hoy{border-left:4px solid var(--amber)}
+.tarea-card.proxima{border-left:4px solid var(--blue)}
+.tarea-nombre{font-size:13px;font-weight:700;margin-bottom:4px}
+.tarea-accion{font-size:12px;color:var(--txt2);margin-bottom:6px}
+.tarea-fecha{font-size:11px;font-weight:600}
+.tarea-fecha.vencida{color:var(--red)}
+.tarea-fecha.hoy{color:var(--amber)}
+.tarea-fecha.ok{color:var(--blue)}
+.tarea-tipo{font-size:10px;color:var(--txt2)}
+
+/* ══ HISTORIAL ══ */
+.historial-wrap{margin-top:10px;border-top:1px solid var(--bdr);padding-top:10px}
+.historial-item{display:flex;gap:10px;padding:7px 0;border-bottom:0.5px solid var(--bdr);font-size:11px}
+.historial-item:last-child{border-bottom:none}
+.hist-fecha{color:var(--txt2);white-space:nowrap;min-width:70px}
+.hist-tipo{font-weight:600;min-width:80px}
+.hist-tipo.wsp{color:#25D366}
+.hist-tipo.email{color:var(--blue)}
+.hist-tipo.llamada{color:var(--amber)}
+.hist-tipo.reunion{color:var(--purple)}
+.hist-tipo.cotizacion{color:var(--g)}
+.hist-nota{color:var(--txt);flex:1}
+.add-hist-btn{font-size:11px;padding:4px 10px;margin-top:8px}
+
+/* ══ COTIZACIONES GUARDADAS ══ */
+.cot-saved-card{background:var(--card);border-radius:var(--radius);border:1px solid var(--bdr);
+  padding:14px 16px;margin-bottom:10px;box-shadow:var(--shadow)}
+.cs-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
+.cs-num{font-size:13px;font-weight:700}
+.cs-total{font-size:15px;font-weight:800;color:var(--g)}
+.cs-meta{font-size:11px;color:var(--txt2)}
+.cs-status{display:inline-block;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700}
+.cs-enviada{background:var(--bluel);color:var(--blue)}
+.cs-aceptada{background:var(--gl);color:var(--g)}
+.cs-rechazada{background:var(--redl);color:var(--red)}
+.cs-vencida{background:var(--bg2);color:var(--txt2)}
+
+/* ══ WHATSAPP BTN ══ */
+.wsp-btn{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;
+  border-radius:20px;background:#25D366;color:#fff;font-size:11px;font-weight:600;
+  text-decoration:none;border:none;cursor:pointer;font-family:inherit}
+.wsp-btn:hover{background:#1da851}
+
+/* ══ MODAL HISTORIAL ══ */
+.modal-sm{max-width:440px}
+
+/* ══ MONTO POTENCIAL ══ */
+.monto-badge{font-size:11px;font-weight:700;color:var(--g);background:var(--gl);
+  padding:2px 8px;border-radius:10px}
 
 /* ══ GLOBAL SEARCH ══ */
 .global-search-wrap{position:relative;flex:1;max-width:320px;min-width:180px}
@@ -312,11 +370,14 @@ input[type=range]{accent-color:var(--g);width:130px}
 <nav class="topnav">
   <div class="logo">C-<span>LIMPIA</span></div>
   <div class="nav-pills">
+    <button class="nav-pill" onclick="showPage('p-hoy',this)">📅 Hoy</button>
     <button class="nav-pill active" onclick="showPage('p-comunidades',this)">🏢 Comunidades</button>
     <button class="nav-pill" onclick="showPage('p-colegios',this)">🏫 Colegios</button>
     <button class="nav-pill" onclick="showPage('p-empresas',this)">🧹 Empresas</button>
     <button class="nav-pill" onclick="showPage('p-precios',this)">💲 Precios</button>
     <button class="nav-pill" onclick="showPage('p-cotizar',this)">📄 Cotización</button>
+    <button class="nav-pill" onclick="showPage('p-cotizaciones',this)">📋 Mis Cotizaciones</button>
+    <button class="nav-pill" onclick="showPage('p-ia',this)" style="background:linear-gradient(135deg,#0F6E56,#534AB7);color:#fff">✨ Cotizar con IA</button>
   </div>
   <div class="global-search-wrap">
     <input type="text" id="global-search" class="global-search"
@@ -373,6 +434,47 @@ input[type=range]{accent-color:var(--g);width:130px}
   </div></div>
 </div>
 
+<!-- ══════════ HOY ══════════ -->
+<div class="page" id="p-hoy">
+  <div class="sec-header">
+    <div>
+      <div class="sec-title" id="hoy-title">📅 Tareas de hoy</div>
+      <div class="sec-sub" id="hoy-sub">Seguimientos vencidos y pendientes para hoy</div>
+    </div>
+    <div style="display:flex;gap:8px">
+      <select id="hoy-filter" onchange="renderHoy()" style="font-size:12px;padding:5px 10px;border-radius:20px;border:1px solid var(--bdr2);background:var(--card)">
+        <option value="hoy">Vencidas + Hoy</option>
+        <option value="semana">Esta semana</option>
+        <option value="todas">Todas pendientes</option>
+      </select>
+    </div>
+  </div>
+  <div class="stats" id="hoy-stats"></div>
+  <div class="hoy-grid" id="hoy-grid">
+    <div class="empty-msg">No hay tareas pendientes 🎉</div>
+  </div>
+</div>
+
+<!-- ══════════ COTIZACIONES GUARDADAS ══════════ -->
+<div class="page" id="p-cotizaciones">
+  <div class="sec-header">
+    <div><div class="sec-title">Mis Cotizaciones</div>
+    <div class="sec-sub">Historial de cotizaciones enviadas — control de estado</div></div>
+  </div>
+  <div class="stats" id="cots-stats"></div>
+  <div class="filters">
+    <input type="text" id="cots-search" placeholder="🔍 Buscar cliente..." oninput="renderCotizaciones()">
+    <select id="cots-estado" onchange="renderCotizaciones()">
+      <option value="">Todos los estados</option>
+      <option>Enviada</option><option>Aceptada</option>
+      <option>Rechazada</option><option>Vencida</option>
+    </select>
+  </div>
+  <div id="cots-body"></div>
+  <div class="empty-msg" id="cots-empty" style="display:none">No hay cotizaciones guardadas aún</div>
+</div>
+
+<!-- ══════════ COLEGIOS ══════════ -->
 <!-- ══════════ COLEGIOS ══════════ -->
 <div class="page" id="p-colegios">
   <div class="sec-header">
@@ -478,27 +580,137 @@ input[type=range]{accent-color:var(--g);width:130px}
       <button class="btn btn-g" onclick="openModal('producto',null)">+ Producto</button>
     </div>
   </div>
+  <div style="display:flex;gap:8px;margin-bottom:8px;align-items:center">
+    <input type="text" id="price-search" placeholder="🔍 Buscar producto o SKU..." 
+      style="flex:1;padding:7px 14px;border-radius:20px;border:1px solid var(--bdr2);font-size:12px;font-family:inherit;outline:none"
+      oninput="renderPrices()">
+  </div>
   <div class="cat-sel" id="cat-pills">
-    <div class="pill active" onclick="setCat(this,'')">Todos</div>
+    <div class="pill active" onclick="setCat(this,'')">Todos (103)</div>
     <div class="pill" onclick="setCat(this,'Químicos')">🧪 Químicos</div>
     <div class="pill" onclick="setCat(this,'Implementos')">🧹 Implementos</div>
     <div class="pill" onclick="setCat(this,'Secos')">🧻 Secos</div>
     <div class="pill" onclick="setCat(this,'Bolsas')">🗑 Bolsas</div>
   </div>
+  <div style="font-size:11px;color:var(--txt2);margin-bottom:8px">
+    💡 Haz clic en <strong>Costo Proveedor</strong> o <strong>Costo Etiqueta</strong> para editar directamente. 
+    Etiqueta química: <strong>1L = $84 · 5L = $114</strong>
+  </div>
   <div class="tcard"><div class="tbl-wrap">
     <table><thead><tr>
       <th>SKU</th><th>Producto</th><th>Formato</th><th>Categoría</th>
-      <th style="color:var(--blue)">Costo Proveedor</th>
-      <th style="color:#993556">Costo Etiqueta</th>
-      <th style="color:var(--txt2)">Total Costo</th>
-      <th style="color:var(--g);background:#F0FAF5">Vista margen</th>
-      <th>30% Volumen</th><th>40% Comunidad</th><th>50% Lista</th>
+      <th style="color:var(--blue)" title="Precio que pagas al proveedor">💰 Costo Proveedor</th>
+      <th style="color:#993556" title="Costo de la etiqueta: 1L=$84 · 5L=$114">🏷 Etiqueta<br><span style="font-weight:400;font-size:9px">1L=$84 · 5L=$114</span></th>
+      <th style="color:var(--txt2)">= Total Costo</th>
+      <th style="color:var(--g);background:#F0FAF5">📊 Vista margen</th>
+      <th>30%<br><span style="font-size:9px;font-weight:400">Volumen</span></th>
+      <th>40%<br><span style="font-size:9px;font-weight:400">Comunidad</span></th>
+      <th>50%<br><span style="font-size:9px;font-weight:400">Lista</span></th>
       <th></th>
     </tr></thead><tbody id="price-body"></tbody></table>
   </div></div>
 </div>
 
+<!-- ══════════ IA COTIZACION ══════════ -->
+<div class="page" id="p-ia">
+  <div class="sec-header">
+    <div>
+      <div class="sec-title">✨ Cotización Inteligente con IA</div>
+      <div class="sec-sub">Pega el correo o lista de productos — la IA mapea todo a tu catálogo automáticamente</div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+    <!-- LEFT: Input -->
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div class="cot-panel">
+        <h4>📧 Pega el correo o lista de productos</h4>
+        <textarea id="ia-input" style="width:100%;height:220px;padding:10px;border:1px solid var(--bdr2);border-radius:8px;font-size:12px;font-family:inherit;resize:vertical;outline:none;line-height:1.6" placeholder="Pega aquí el correo, WhatsApp o lista de productos que recibes del cliente...
+
+Ejemplo:
+Cloro 5L x50
+Desengrasante x30
+Bolsa 70x90 paq x10"></textarea>
+        <div class="fg" style="margin-top:10px">
+          <label>Cliente (opcional)</label>
+          <input id="ia-cliente" type="text" placeholder="Nombre del cliente o empresa">
+        </div>
+        <button onclick="procesarConIA()" id="ia-btn"
+          style="width:100%;margin-top:12px;height:44px;border:none;border-radius:8px;
+          background:linear-gradient(135deg,#0F6E56,#534AB7);color:#fff;font-size:14px;
+          font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;
+          justify-content:center;gap:8px">
+          ✨ Interpretar y generar cotización
+        </button>
+        <div id="ia-loading" style="display:none;text-align:center;padding:16px;color:var(--txt2);font-size:12px">
+          <div style="font-size:24px;margin-bottom:8px">⏳</div>
+          Analizando productos con IA...
+        </div>
+      </div>
+
+      <div class="cot-panel" id="ia-no-match-panel" style="display:none">
+        <h4 style="color:var(--amber)">⚠️ Productos sin coincidencia en tu catálogo</h4>
+        <div id="ia-no-match-list" style="font-size:12px;color:var(--txt2)"></div>
+        <div style="font-size:11px;color:var(--txt2);margin-top:10px;padding:8px;background:var(--bg2);border-radius:6px">
+          💡 Puedes agregar estos productos en <strong>Lista de Precios → + Producto</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Result -->
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div class="cot-panel">
+        <h4>📋 Resultado interpretado</h4>
+        <div id="ia-result" style="min-height:100px;font-size:12px;color:var(--txt2);padding:8px;background:var(--bg2);border-radius:6px">
+          El resultado aparecerá aquí después de procesar...
+        </div>
+      </div>
+
+      <div class="cot-panel" id="ia-cot-panel" style="display:none">
+        <h4>✅ Cotización generada</h4>
+        <div style="margin-bottom:10px">
+          <div class="fg"><label>Margen para esta cotización</label>
+            <div style="display:flex;align-items:center;gap:8px">
+              <input type="range" min="0" max="100" value="40" id="ia-margin-slider" oninput="iaMarginSync('slider')" style="flex:1;accent-color:var(--g)">
+              <input type="number" min="0" max="100" value="40" id="ia-margin-num" oninput="iaMarginSync('num')"
+                style="width:55px;padding:4px;border-radius:6px;border:1px solid var(--bdr2);font-size:14px;font-weight:700;color:var(--g);text-align:center">
+              <span style="font-weight:700;color:var(--g)">%</span>
+            </div>
+          </div>
+        </div>
+        <table class="cot-lines" id="ia-lines-table">
+          <thead><tr>
+            <th>Producto</th><th>Formato</th><th>Qty</th>
+            <th>P.Unit s/IVA</th><th>IVA</th><th>Total c/IVA</th>
+          </tr></thead>
+          <tbody id="ia-lines-body"></tbody>
+        </table>
+        <div class="cot-total-box" style="margin-top:10px">
+          <div class="tot-row"><span>Subtotal s/IVA</span><span id="ia-sub">$0</span></div>
+          <div class="tot-row"><span>IVA 19%</span><span id="ia-iva">$0</span></div>
+          <div class="tot-row big"><span>TOTAL</span><span id="ia-total">$0</span></div>
+          <div class="tot-row" style="font-size:11px;color:var(--txt2);margin-top:4px">
+            <span>Margen bruto</span><span id="ia-margen">$0</span>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+          <button onclick="pasarACotizacion()" class="btn btn-g" style="flex:1;height:38px">
+            📄 Pasar a Cotización normal
+          </button>
+          <button onclick="imprimirIACot()" class="btn" style="flex:1;height:38px;background:var(--blue);color:#fff;border-color:var(--blue)">
+            🖨 Imprimir PDF
+          </button>
+          <button onclick="guardarIACot()" class="btn" style="flex:1;height:38px">
+            💾 Guardar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ══════════ COTIZACIÓN ══════════ -->
+
 <div class="page" id="p-cotizar">
   <div class="sec-header">
     <div class="sec-title">Generador de Cotización</div>
@@ -530,8 +742,15 @@ input[type=range]{accent-color:var(--g);width:130px}
     </div>
     <div style="display:flex;flex-direction:column;gap:12px">
       <div class="cot-panel">
-        <h4>Catálogo</h4>
-        <input type="text" class="cat-search" id="cot-search" placeholder="Buscar producto..." oninput="renderCotCatalog()">
+        <h4>Catálogo — <span id="cot-cat-count" style="color:var(--g)">103 productos</span></h4>
+        <input type="text" class="cat-search" id="cot-search" placeholder="🔍 Buscar nombre o SKU..." oninput="renderCotCatalog()">
+        <div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:7px">
+          <div class="pill active" style="font-size:10px;padding:2px 8px" onclick="setCotCat(this,'')">Todos</div>
+          <div class="pill" style="font-size:10px;padding:2px 8px;color:#185FA5" onclick="setCotCat(this,'Químicos')">🧪 Quím.</div>
+          <div class="pill" style="font-size:10px;padding:2px 8px;color:#993556" onclick="setCotCat(this,'Implementos')">🧹 Impl.</div>
+          <div class="pill" style="font-size:10px;padding:2px 8px;color:var(--amber)" onclick="setCotCat(this,'Secos')">🧻 Secos</div>
+          <div class="pill" style="font-size:10px;padding:2px 8px;color:var(--g)" onclick="setCotCat(this,'Bolsas')">🗑 Bolsas</div>
+        </div>
         <div class="prod-list" id="cot-prod-list"></div>
       </div>
       <div class="cot-panel">
@@ -615,6 +834,44 @@ input[type=range]{accent-color:var(--g);width:130px}
     <div class="fg"><label>Administrado por</label><input id="mc-admin" type="text"></div>
     <div class="fg full"><label>Productos que solicita</label><input id="mc-productos" type="text"></div>
     <div class="fg full"><label>Notas</label><textarea id="mc-notas"></textarea></div>
+    <div class="fg"><label>📋 Próxima acción</label>
+      <select id="mc-accion">
+        <option value="">Sin acción pendiente</option>
+        <option>Llamar</option><option>Enviar WhatsApp</option>
+        <option>Enviar cotización</option><option>Reenviar cotización</option>
+        <option>Confirmar pedido</option><option>Visitar</option>
+        <option>Pedir reunión</option><option>Hacer seguimiento</option>
+      </select>
+    </div>
+    <div class="fg"><label>📅 Fecha próxima acción</label>
+      <input id="mc-fecha-accion" type="date"></div>
+    <div class="fg"><label>💲 Monto potencial mensual ($)</label>
+      <input id="mc-monto" type="number" min="0" placeholder="Ej: 150000"></div>
+    <div class="fg"><label>📦 Canal preferido</label>
+      <select id="mc-canal">
+        <option value="">Sin preferencia</option>
+        <option>WhatsApp</option><option>Email</option>
+        <option>Llamada</option><option>Visita</option>
+      </select>
+    </div>
+    <div class="fg full" style="background:var(--bg2);border-radius:8px;padding:10px">
+      <label style="margin-bottom:8px;display:block">📖 Historial de interacciones</label>
+      <div id="mc-historial-list" style="max-height:150px;overflow-y:auto;margin-bottom:8px"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 2fr auto;gap:6px;align-items:end">
+        <div class="fg"><label>Tipo</label>
+          <select id="mc-hist-tipo" style="font-size:11px">
+            <option>WhatsApp</option><option>Llamada</option>
+            <option>Email</option><option>Reunión</option>
+            <option>Cotización</option><option>Visita</option>
+          </select>
+        </div>
+        <div class="fg"><label>Fecha</label>
+          <input id="mc-hist-fecha" type="date" style="font-size:11px"></div>
+        <div class="fg"><label>Nota</label>
+          <input id="mc-hist-nota" type="text" placeholder="Ej: Se envió lista de precios" style="font-size:11px"></div>
+        <button class="btn" style="height:32px;font-size:11px;white-space:nowrap" onclick="addHistorial('mc')">+ Agregar</button>
+      </div>
+    </div>
   </div>
   <div class="modal-ft">
     <button class="btn btn-red" id="mc-del" onclick="deleteCom()" style="margin-right:auto;display:none">🗑 Eliminar</button>
@@ -715,6 +972,44 @@ input[type=range]{accent-color:var(--g);width:130px}
     <div class="fg"><label>Comuna</label><input id="memp-comuna" type="text"></div>
     <div class="fg full"><label>Productos que solicita</label><input id="memp-productos" type="text"></div>
     <div class="fg full"><label>Notas</label><textarea id="memp-notas"></textarea></div>
+    <div class="fg"><label>📋 Próxima acción</label>
+      <select id="memp-accion">
+        <option value="">Sin acción pendiente</option>
+        <option>Llamar</option><option>Enviar WhatsApp</option>
+        <option>Enviar cotización</option><option>Reenviar cotización</option>
+        <option>Confirmar pedido</option><option>Visitar</option>
+        <option>Pedir reunión</option><option>Hacer seguimiento</option>
+      </select>
+    </div>
+    <div class="fg"><label>📅 Fecha próxima acción</label>
+      <input id="memp-fecha-accion" type="date"></div>
+    <div class="fg"><label>💲 Monto potencial mensual ($)</label>
+      <input id="memp-monto" type="number" min="0" placeholder="Ej: 500000"></div>
+    <div class="fg"><label>📦 Canal preferido</label>
+      <select id="memp-canal">
+        <option value="">Sin preferencia</option>
+        <option>WhatsApp</option><option>Email</option>
+        <option>Llamada</option><option>Visita</option>
+      </select>
+    </div>
+    <div class="fg full" style="background:var(--bg2);border-radius:8px;padding:10px">
+      <label style="margin-bottom:8px;display:block">📖 Historial de interacciones</label>
+      <div id="memp-historial-list" style="max-height:150px;overflow-y:auto;margin-bottom:8px"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 2fr auto;gap:6px;align-items:end">
+        <div class="fg"><label>Tipo</label>
+          <select id="memp-hist-tipo" style="font-size:11px">
+            <option>WhatsApp</option><option>Llamada</option>
+            <option>Email</option><option>Reunión</option>
+            <option>Cotización</option><option>Visita</option>
+          </select>
+        </div>
+        <div class="fg"><label>Fecha</label>
+          <input id="memp-hist-fecha" type="date" style="font-size:11px"></div>
+        <div class="fg"><label>Nota</label>
+          <input id="memp-hist-nota" type="text" placeholder="Nota de la interacción" style="font-size:11px"></div>
+        <button class="btn" style="height:32px;font-size:11px;white-space:nowrap" onclick="addHistorial('memp')">+ Agregar</button>
+      </div>
+    </div>
   </div>
   <div class="modal-ft">
     <button class="btn btn-red" id="memp-del" onclick="deleteEmp()" style="margin-right:auto;display:none">🗑 Eliminar</button>
@@ -764,58 +1059,14 @@ var colegios=[{"id":101,"nombre":"Acuarelines","director":"Patricia Verónica D�
 
 var empresas=[{"id":9001,"nombre":"Limpia Oficinas Cowork","contacto":"Daniel","cargo":"Gerente","email":"","tel":"","admin":"","tipo":"Empresa de aseo","estado":"Cotización en preparación","pot":"Alto","precio":"0.40","actitud":"Positiva","comuna":"Santiago","region":"RM","correo":"Sin enviar","web":"","dir":"","productos":"Alcohol 70%, CIF, desengrasante FS-280, lavaloza, limpiavidrios, mantenedor piso, toalla, bolsas, paños","notas":"Empresa activa con múltiples instalaciones. Solicita desde 5L. Alta probabilidad recurrente mensual."},{"id":9002,"nombre":"Bluehome","contacto":"Francisco Ruiz Tagle","cargo":"Gerente de Finanzas","email":"","tel":"","admin":"","tipo":"Inmobiliaria","estado":"Reunión por agendar","pot":"Alto","precio":"0.40","actitud":"Positiva","comuna":"Santiago","region":"RM","correo":"Sin enviar","web":"","dir":"","productos":"Línea completa","notas":"Referido. Busca reducción de costos activamente. Señal de compra directa."},{"id":9003,"nombre":"Leasity","contacto":"Tomás Castillo","cargo":"","email":"","tel":"","admin":"","tipo":"Inmobiliaria","estado":"Contacto","pot":"Medio-Alto","precio":"0.40","actitud":"Neutral","comuna":"Santiago","region":"RM","correo":"Sin enviar","web":"","dir":"","productos":"Por definir","notas":"Contacto directo. Seguimiento en curso."},{"id":9004,"nombre":"Grupo Eulen Chile","contacto":"Alejandro Fernández","cargo":"Jefe de Compras","email":"","tel":"","admin":"Grupo Eulen","tipo":"Multinacional","estado":"Lead","pot":"Muy alto","precio":"0.30","actitud":"Neutral","comuna":"Santiago","region":"RM","correo":"Sin enviar","web":"www.eulen.com","dir":"","productos":"Línea completa facilities management","notas":"Multinacional. Contacto directo con Alejandro Fernández y Diana Ospina. Un contrato equivale a decenas de edificios."},{"id":9005,"nombre":"Administración Lauri SpA","contacto":"Juliana Nahuelpán","cargo":"Asistente Administración","email":"","tel":"","admin":"Lauri SpA","tipo":"Inmobiliaria","estado":"Cotización en preparación","pot":"Alto","precio":"0.40","actitud":"Positiva","comuna":"San Miguel","region":"RM","correo":"Abierto","web":"","dir":"San Ignacio de Loyola #4850, San Miguel","productos":"Línea completa según listado","notas":"Gestiona 10-20 edificios. RUT: 65.095.133-6."},{"id":9006,"nombre":"Camaxtli Asesorías y Servicios Integrales SPA","contacto":"","cargo":"","email":"","tel":"","admin":"","tipo":"Empresa de aseo","estado":"Lead","pot":"Alto","precio":"0.40","actitud":"Neutral","comuna":"Santiago","region":"RM","correo":"Sin enviar","web":"camaxtli.cl","dir":"Santiago, Chile","productos":"Seguridad, aseo y mantención integral","notas":"Fundada 2021. Enfocada en seguridad privada y aseo. Pilares: Lealtad, Compromiso, Calidad, Vocación de Servicio."},{"id":9007,"nombre":"WorldWide Security (WFSA)","contacto":"","cargo":"","email":"info@wfsa.cl","tel":"+56 2 2343 5001","admin":"","tipo":"Empresa de aseo","estado":"Lead","pot":"Muy alto","precio":"0.30","actitud":"Neutral","comuna":"San Miguel","region":"RM","correo":"Sin enviar","web":"wfsa.cl","dir":"Sexta Avenida 1236, San Miguel, Santiago","productos":"Aseo y mantención, limpieza industrial, servicios especiales, seguridad","notas":"Más de 20 años de experiencia. Oficinas en Santiago, Viña del Mar y Puerto Montt. Empresa de gran escala."},{"id":9008,"nombre":"ESAMI — Aseo Industrial","contacto":"","cargo":"","email":"info@esami.cl","tel":"+56 2 2752 9068","admin":"","tipo":"Empresa de aseo","estado":"Lead","pot":"Alto","precio":"0.40","actitud":"Neutral","comuna":"Ñuñoa","region":"RM","correo":"Sin enviar","web":"esami.cl","dir":"Diagonal Oriente 1835, Ñuñoa, Santiago","productos":"Aseo industrial, lavado y encerado de pisos, limpiavidrios, sellado, lavado de alfombras","notas":"Más de 30 años de experiencia. Empresa reconocida. Alta probabilidad de consumo de insumos recurrente."},{"id":9009,"nombre":"SAMI — Aseo de Oficinas","contacto":"","cargo":"","email":"","tel":"+56 2 2712 6661","admin":"","tipo":"Empresa de aseo","estado":"Lead","pot":"Alto","precio":"0.40","actitud":"Neutral","comuna":"Santiago","region":"RM","correo":"Sin enviar","web":"sami.cl","dir":"Santiago","productos":"Aseo oficinas, desinfección, sanitización, control de plagas, áreas verdes","notas":"Más de 33 años en el mercado. Trabaja con colegios, oficinas, industrias, centros comerciales. Superficies +1000m2."},{"id":9010,"nombre":"TGF Clean SPA","contacto":"","cargo":"","email":"contacto@tgfclean.cl","tel":"+56 2 2881 7813","admin":"","tipo":"Empresa de aseo","estado":"Lead","pot":"Alto","precio":"0.40","actitud":"Neutral","comuna":"Independencia","region":"RM","correo":"Sin enviar","web":"tgfclean.cl","dir":"Montau 1418, Independencia, Santiago","productos":"Aseo industrial, oficinas, casinos industriales, colegios","notas":"Empresa robusta con equipos de RRHH y operaciones. Especialistas en plantas, bodegas, naves y colegios."},{"id":9011,"nombre":"Ecocleans Chile SA","contacto":"","cargo":"","email":"","tel":"+56 2 2205 0167","admin":"","tipo":"Empresa de aseo","estado":"Lead","pot":"Alto","precio":"0.40","actitud":"Neutral","comuna":"Santiago","region":"RM","correo":"Sin enviar","web":"ecocleans.cl","dir":"Santiago","productos":"Aseo comercial, industrial, institucional, inmobiliario, clínico","notas":"Fundada en UK. Opera en Chile desde 2010. Productos ecológicos, reducción 65% detergentes químicos. Aseo de edificios."},{"id":9012,"nombre":"Promarco Chile","contacto":"","cargo":"","email":"","tel":"","admin":"","tipo":"Empresa de aseo","estado":"Lead","pot":"Alto","precio":"0.40","actitud":"Neutral","comuna":"Santiago","region":"RM","correo":"Sin enviar","web":"promarcochile.cl","dir":"Huérfanos 979, Oficina 619, Santiago","productos":"Aseo profesional, aseo industrial, sanitización, post-construcción, personal externalizado","notas":"Diagnóstico gratuito. Supervisión constante. Trabaja con edificios residenciales. Muy buen fit para C-Limpia."},{"id":9013,"nombre":"PureClean Intelligent Services","contacto":"","cargo":"","email":"","tel":"","admin":"","tipo":"Empresa de aseo","estado":"Lead","pot":"Medio-Alto","precio":"0.40","actitud":"Neutral","comuna":"Santiago","region":"RM","correo":"Sin enviar","web":"pureclean.cl","dir":"Santiago","productos":"Limpieza profesional industrial, equipos última generación","notas":"Más de 19 años en el rubro. Enfocados en calidad y bienestar del personal. Presencia nacional."},{"id":9014,"nombre":"Servicios de Aseo Chile","contacto":"","cargo":"","email":"contacto@serviciosdeaseo.cl","tel":"+56 9 7947 2499","admin":"","tipo":"Empresa de aseo","estado":"Lead","pot":"Medio","precio":"0.50","actitud":"Neutral","comuna":"Santiago","region":"RM","correo":"Sin enviar","web":"serviciosdeaseo.cl","dir":"Santiago","productos":"Aseo oficinas, limpieza industrial, sanitización","notas":"Empresa en crecimiento. Email y teléfono disponibles. Contacto directo posible."}];
 
-var products=[
-  {sku:"Q-001",nombre:"Alcohol líquido 70%",formato:"1L",cat:"Químicos",costoP:1280,costoE:189},
-  {sku:"Q-002",nombre:"Alcohol líquido 70%",formato:"5L",cat:"Químicos",costoP:5050,costoE:734},
-  {sku:"Q-003",nombre:"Amonio cuaternario Ghammakuat",formato:"5L",cat:"Químicos",costoP:7500,costoE:1114},
-  {sku:"Q-004",nombre:"Contratipo CIF crema",formato:"1L",cat:"Químicos",costoP:970,costoE:148},
-  {sku:"Q-005",nombre:"Contratipo CIF crema",formato:"5L",cat:"Químicos",costoP:4260,costoE:639},
-  {sku:"Q-006",nombre:"Desodorante ambiental",formato:"1L",cat:"Químicos",costoP:740,costoE:109},
-  {sku:"Q-007",nombre:"Desodorante ambiental",formato:"5L",cat:"Químicos",costoP:3090,costoE:464},
-  {sku:"Q-008",nombre:"FS-280 Desengrasante",formato:"1L",cat:"Químicos",costoP:726,costoE:108},
-  {sku:"Q-009",nombre:"FS-280 Desengrasante",formato:"5L",cat:"Químicos",costoP:2780,costoE:414},
-  {sku:"Q-010",nombre:"Lavaloza industrial",formato:"1L",cat:"Químicos",costoP:508,costoE:76},
-  {sku:"Q-011",nombre:"Lavaloza industrial",formato:"5L",cat:"Químicos",costoP:2082,costoE:312},
-  {sku:"Q-012",nombre:"Limpiavidrios",formato:"1L",cat:"Químicos",costoP:432,costoE:65},
-  {sku:"Q-013",nombre:"Limpiavidrios",formato:"5L",cat:"Químicos",costoP:1595,costoE:239},
-  {sku:"Q-014",nombre:"Mantenedor de pisos",formato:"1L",cat:"Químicos",costoP:464,costoE:70},
-  {sku:"Q-015",nombre:"Mantenedor de pisos",formato:"5L",cat:"Químicos",costoP:1852,costoE:277},
-  {sku:"Q-016",nombre:"Mantenedor piso flotante",formato:"1L",cat:"Químicos",costoP:1550,costoE:234},
-  {sku:"Q-017",nombre:"Mantenedor piso flotante",formato:"5L",cat:"Químicos",costoP:7160,costoE:1069},
-  {sku:"Q-018",nombre:"Desinfectante Quantum Q5",formato:"5L",cat:"Químicos",costoP:6014,costoE:900},
-  {sku:"I-001",nombre:"Paño microfibra rojo x10",formato:"40x40",cat:"Implementos",costoP:490,costoE:73},
-  {sku:"I-002",nombre:"Paño microfibra azul x10",formato:"40x40",cat:"Implementos",costoP:490,costoE:73},
-  {sku:"I-003",nombre:"Paño microfibra amarillo x10",formato:"40x40",cat:"Implementos",costoP:490,costoE:73},
-  {sku:"I-004",nombre:"Paño microfibra rojo x10",formato:"50x70",cat:"Implementos",costoP:1305,costoE:196},
-  {sku:"I-005",nombre:"Paño microfibra azul x10",formato:"50x70",cat:"Implementos",costoP:1305,costoE:196},
-  {sku:"I-006",nombre:"Paño microfibra amarillo x10",formato:"50x70",cat:"Implementos",costoP:1305,costoE:196},
-  {sku:"S-001",nombre:"Papel higiénico",formato:"4x500mts",cat:"Secos",costoP:5350,costoE:800},
-  {sku:"S-002",nombre:"Papel higiénico doble hoja",formato:"48x20mts",cat:"Secos",costoP:6700,costoE:1000},
-  {sku:"S-003",nombre:"Papel higiénico",formato:"48x50mts",cat:"Secos",costoP:10960,costoE:1640},
-  {sku:"S-004",nombre:"Toalla de papel",formato:"2x250mts",cat:"Secos",costoP:4480,costoE:670},
-  {sku:"B-001",nombre:"Bolsa negra x10",formato:"50x70",cat:"Bolsas",costoP:20,costoE:4},
-  {sku:"B-002",nombre:"Bolsa negra x10",formato:"70x90",cat:"Bolsas",costoP:44,costoE:7},
-  {sku:"B-003",nombre:"Bolsa negra x10",formato:"80x110",cat:"Bolsas",costoP:67,costoE:10},
-  {sku:"B-004",nombre:"Bolsa negra x10",formato:"90x110",cat:"Bolsas",costoP:75,costoE:12},
-  {sku:"B-005",nombre:"Bolsa negra x10",formato:"90x120",cat:"Bolsas",costoP:82,costoE:13},
-  {sku:"B-006",nombre:"Bolsa negra x10",formato:"110x120",cat:"Bolsas",costoP:93,costoE:14},
-  {sku:"B-007",nombre:"Bolsa negra x10",formato:"120x130",cat:"Bolsas",costoP:143,costoE:22},
-  {sku:"B-008",nombre:"Bolsa transparente x10",formato:"50x70",cat:"Bolsas",costoP:22,costoE:3},
-  {sku:"B-009",nombre:"Bolsa transparente x10",formato:"70x90",cat:"Bolsas",costoP:47,costoE:7},
-  {sku:"B-010",nombre:"Bolsa transparente x10",formato:"80x110",cat:"Bolsas",costoP:71,costoE:11},
-  {sku:"B-011",nombre:"Bolsa transparente x10",formato:"90x110",cat:"Bolsas",costoP:80,costoE:12},
-  {sku:"B-012",nombre:"Bolsa transparente x10",formato:"90x120",cat:"Bolsas",costoP:91,costoE:14},
-  {sku:"B-013",nombre:"Bolsa transparente x10",formato:"110x120",cat:"Bolsas",costoP:93,costoE:14},
-  {sku:"B-014",nombre:"Bolsa transparente x10",formato:"120x130",cat:"Bolsas",costoP:160,costoE:24},
-  {sku:"B-015",nombre:"Bolsa transparente x10",formato:"150x160",cat:"Bolsas",costoP:374,costoE:56}
-];
+var products=[{"sku":"Q-001","nombre":"Alcohol líquido 70%","formato":"1L","cat":"Químicos","costoP":1385,"costoE":84},{"sku":"Q-002","nombre":"Alcohol líquido 70%","formato":"5L","cat":"Químicos","costoP":5670,"costoE":114},{"sku":"Q-003","nombre":"Amonio cuaternario Ghammakuat","formato":"5L","cat":"Químicos","costoP":8500,"costoE":114},{"sku":"Q-004","nombre":"Contratipo CIF crema","formato":"1L","cat":"Químicos","costoP":1034,"costoE":84},{"sku":"Q-005","nombre":"Contratipo CIF crema","formato":"5L","cat":"Químicos","costoP":4785,"costoE":114},{"sku":"Q-006","nombre":"Desodorante ambiental","formato":"1L","cat":"Químicos","costoP":765,"costoE":84},{"sku":"Q-007","nombre":"Desodorante ambiental","formato":"5L","cat":"Químicos","costoP":3440,"costoE":114},{"sku":"Q-008","nombre":"FS-280 Desengrasante","formato":"1L","cat":"Químicos","costoP":750,"costoE":84},{"sku":"Q-009","nombre":"FS-280 Desengrasante","formato":"5L","cat":"Químicos","costoP":5201,"costoE":114},{"sku":"Q-010","nombre":"Lavaloza industrial","formato":"1L","cat":"Químicos","costoP":500,"costoE":84},{"sku":"Q-011","nombre":"Lavaloza industrial","formato":"5L","cat":"Químicos","costoP":2886,"costoE":114},{"sku":"Q-012","nombre":"Limpiavidrios","formato":"1L","cat":"Químicos","costoP":413,"costoE":84},{"sku":"Q-013","nombre":"Limpiavidrios","formato":"5L","cat":"Químicos","costoP":2636,"costoE":114},{"sku":"Q-014","nombre":"Mantenedor de pisos","formato":"1L","cat":"Químicos","costoP":450,"costoE":84},{"sku":"Q-015","nombre":"Mantenedor de pisos","formato":"5L","cat":"Químicos","costoP":2015,"costoE":114},{"sku":"Q-016","nombre":"Mantenedor piso flotante","formato":"1L","cat":"Químicos","costoP":1700,"costoE":84},{"sku":"Q-017","nombre":"Mantenedor piso flotante","formato":"5L","cat":"Químicos","costoP":8115,"costoE":114},{"sku":"Q-018","nombre":"Desinfectante Quantum Q5","formato":"5L","cat":"Químicos","costoP":6800,"costoE":114},{"sku":"Q-019","nombre":"Alcohol Gel SafePro","formato":"5L","cat":"Químicos","costoP":1586,"costoE":114},{"sku":"Q-020","nombre":"Alcohol Isopropílico Difem","formato":"1L","cat":"Químicos","costoP":2166,"costoE":84},{"sku":"Q-021","nombre":"Cera acrílica Autobrillo Incolora","formato":"5L","cat":"Químicos","costoP":2324,"costoE":114},{"sku":"Q-022","nombre":"Cera acrílica Autobrillo Roja","formato":"5L","cat":"Químicos","costoP":2317,"costoE":114},{"sku":"Q-023","nombre":"Cloro Hogar 5%","formato":"5L","cat":"Químicos","costoP":13636,"costoE":114},{"sku":"Q-024","nombre":"Desengrasante Industrial","formato":"5L","cat":"Químicos","costoP":5201,"costoE":114},{"sku":"Q-025","nombre":"Detergente Ropa Premium Líquido","formato":"5L","cat":"Químicos","costoP":6746,"costoE":114},{"sku":"Q-026","nombre":"Desincrustante","formato":"5L","cat":"Químicos","costoP":827,"costoE":114},{"sku":"Q-027","nombre":"Jabón Líquido Económico Elite","formato":"5L","cat":"Químicos","costoP":4586,"costoE":114},{"sku":"Q-028","nombre":"Lavalozas Industrial","formato":"5L","cat":"Químicos","costoP":2886,"costoE":114},{"sku":"Q-029","nombre":"Limpiador Multiuso Cítrico Virutex","formato":"5L","cat":"Químicos","costoP":3286,"costoE":114},{"sku":"Q-030","nombre":"Limpia Vidrios Igenix","formato":"5L","cat":"Químicos","costoP":2636,"costoE":114},{"sku":"Q-031","nombre":"Limpiador Crema Universal Virutex","formato":"750ml","cat":"Químicos","costoP":1269,"costoE":84},{"sku":"Q-032","nombre":"Lustra Muebles Crema Virginia","formato":"250ml","cat":"Químicos","costoP":1122,"costoE":84},{"sku":"Q-033","nombre":"Renovador de Gomas","formato":"5L","cat":"Químicos","costoP":1167,"costoE":114},{"sku":"Q-034","nombre":"Pulidor Acero Inoxidable 3M","formato":"Uni","cat":"Químicos","costoP":9310,"costoE":0},{"sku":"I-001","nombre":"Paño microfibra rojo x10","formato":"40x40","cat":"Implementos","costoP":490,"costoE":0},{"sku":"I-002","nombre":"Paño microfibra azul x10","formato":"40x40","cat":"Implementos","costoP":490,"costoE":0},{"sku":"I-003","nombre":"Paño microfibra amarillo x10","formato":"40x40","cat":"Implementos","costoP":490,"costoE":0},{"sku":"I-004","nombre":"Paño microfibra rojo x10","formato":"50x70","cat":"Implementos","costoP":1305,"costoE":0},{"sku":"I-005","nombre":"Paño microfibra azul x10","formato":"50x70","cat":"Implementos","costoP":1305,"costoE":0},{"sku":"I-006","nombre":"Paño microfibra amarillo x10","formato":"50x70","cat":"Implementos","costoP":1305,"costoE":0},{"sku":"I-007","nombre":"Atomizador Pulverizador Spray","formato":"1L","cat":"Implementos","costoP":1400,"costoE":0},{"sku":"I-008","nombre":"Atomizador Repuesto Gatillo","formato":"Uni","cat":"Implementos","costoP":1400,"costoE":0},{"sku":"I-009","nombre":"Balde Plástico con Estrujador VIRUTEX","formato":"14L","cat":"Implementos","costoP":6158,"costoE":0},{"sku":"I-010","nombre":"Barre Agua Seca con Goma VIRUTEX","formato":"55cm","cat":"Implementos","costoP":7780,"costoE":0},{"sku":"I-011","nombre":"Carro Estrujador","formato":"33L","cat":"Implementos","costoP":64705,"costoE":0},{"sku":"I-012","nombre":"Carro Janitor Porta Útiles","formato":"Uni","cat":"Implementos","costoP":127058,"costoE":0},{"sku":"I-013","nombre":"Repuesto Bolsa Amarilla Carro Janitor","formato":"Uni","cat":"Implementos","costoP":37189,"costoE":0},{"sku":"I-014","nombre":"PAD 17\" Blanco (Brillo)","formato":"Caja 5u","cat":"Implementos","costoP":3515,"costoE":0},{"sku":"I-015","nombre":"PAD 17\" Rojo (Mantención)","formato":"Caja 5u","cat":"Implementos","costoP":3515,"costoE":0},{"sku":"I-016","nombre":"PAD 17\" Negro (Pulido)","formato":"Caja 5u","cat":"Implementos","costoP":3664,"costoE":0},{"sku":"I-017","nombre":"Escoba Rama 5 Costuras","formato":"Uni","cat":"Implementos","costoP":6111,"costoE":0},{"sku":"I-018","nombre":"Escobilla Plástica Plancha","formato":"Uni","cat":"Implementos","costoP":830,"costoE":0},{"sku":"I-019","nombre":"Escobillón Multiuso Clásico Virutex PRO","formato":"Uni","cat":"Implementos","costoP":1990,"costoE":0},{"sku":"I-020","nombre":"Espátula Metálica con Mango","formato":"2.5cm","cat":"Implementos","costoP":720,"costoE":0},{"sku":"I-021","nombre":"Esponja Amarilla/Verde","formato":"Uni","cat":"Implementos","costoP":178,"costoE":0},{"sku":"I-022","nombre":"Esponja Fibra Verde","formato":"Uni","cat":"Implementos","costoP":103,"costoE":0},{"sku":"I-023","nombre":"Guante Cabritilla sin Forro","formato":"Uni","cat":"Implementos","costoP":1750,"costoE":0},{"sku":"I-024","nombre":"Guante Látex Amarillo M","formato":"Par","cat":"Implementos","costoP":312,"costoE":0},{"sku":"I-025","nombre":"Guante Látex Amarillo L","formato":"Par","cat":"Implementos","costoP":312,"costoE":0},{"sku":"I-026","nombre":"Guante Nitrilo Virutex PRO S","formato":"Par","cat":"Implementos","costoP":690,"costoE":0},{"sku":"I-027","nombre":"Guante Nitrilo Virutex PRO M","formato":"Par","cat":"Implementos","costoP":690,"costoE":0},{"sku":"I-028","nombre":"Guante Nitrilo Virutex PRO L","formato":"Par","cat":"Implementos","costoP":690,"costoE":0},{"sku":"I-029","nombre":"Hisopo WC Plástico","formato":"Uni","cat":"Implementos","costoP":926,"costoE":0},{"sku":"I-030","nombre":"Mango Mopa Microfibra","formato":"45cm","cat":"Implementos","costoP":3341,"costoE":0},{"sku":"I-031","nombre":"Repuesto Mopa Microfibra","formato":"45cm","cat":"Implementos","costoP":2696,"costoE":0},{"sku":"I-032","nombre":"Mopa Húmeda Algodón Repuesto Virutex PRO","formato":"16oz","cat":"Implementos","costoP":1190,"costoE":0},{"sku":"I-033","nombre":"Mopa Húmeda Algodón Repuesto","formato":"24oz","cat":"Implementos","costoP":2605,"costoE":0},{"sku":"I-034","nombre":"Mango Clip Mopa Húmeda","formato":"Uni","cat":"Implementos","costoP":3600,"costoE":0},{"sku":"I-035","nombre":"Mango Mopa Seca Aluminio","formato":"Uni","cat":"Implementos","costoP":3341,"costoE":0},{"sku":"I-036","nombre":"Mascarilla Desechable","formato":"Caja 50u","cat":"Implementos","costoP":1625,"costoE":0},{"sku":"I-037","nombre":"Pala Aseo Plástica","formato":"Uni","cat":"Implementos","costoP":838,"costoE":0},{"sku":"I-038","nombre":"Paño Amarillo Multiuso","formato":"Uni","cat":"Implementos","costoP":275,"costoE":0},{"sku":"I-039","nombre":"Paños Microfibra Pack","formato":"5 unid","cat":"Implementos","costoP":495,"costoE":0},{"sku":"I-040","nombre":"Pastilla Estanque WC Igenix","formato":"1 unid","cat":"Implementos","costoP":410,"costoE":0},{"sku":"I-041","nombre":"Plumero Multicolor Estático","formato":"Uni","cat":"Implementos","costoP":792,"costoE":0},{"sku":"I-042","nombre":"Señal Piso Húmedo","formato":"Uni","cat":"Implementos","costoP":5550,"costoE":0},{"sku":"I-043","nombre":"Sopapo Baño Virutex","formato":"Uni","cat":"Implementos","costoP":929,"costoE":0},{"sku":"I-044","nombre":"Trapero Microfibra Simple Ojal","formato":"Uni","cat":"Implementos","costoP":834,"costoE":0},{"sku":"I-045","nombre":"Trapero Húmedo Excell","formato":"1 unid","cat":"Implementos","costoP":1347,"costoE":0},{"sku":"I-046","nombre":"Virutilla Gruesa","formato":"Unidad","cat":"Implementos","costoP":460,"costoE":0},{"sku":"S-001","nombre":"Papel higiénico","formato":"4x500mts","cat":"Secos","costoP":6036,"costoE":0},{"sku":"S-002","nombre":"Papel higiénico doble hoja","formato":"48x20mts","cat":"Secos","costoP":7586,"costoE":0},{"sku":"S-003","nombre":"Papel higiénico","formato":"48x50mts","cat":"Secos","costoP":12486,"costoE":0},{"sku":"S-004","nombre":"Toalla de papel","formato":"2x250mts","cat":"Secos","costoP":5036,"costoE":0},{"sku":"B-001","nombre":"Bolsa negra x10","formato":"50x70","cat":"Bolsas","costoP":20,"costoE":0},{"sku":"B-002","nombre":"Bolsa negra x10","formato":"70x90","cat":"Bolsas","costoP":44,"costoE":0},{"sku":"B-003","nombre":"Bolsa negra x10","formato":"80x110","cat":"Bolsas","costoP":67,"costoE":0},{"sku":"B-004","nombre":"Bolsa negra x10","formato":"90x110","cat":"Bolsas","costoP":75,"costoE":0},{"sku":"B-005","nombre":"Bolsa negra x10","formato":"90x120","cat":"Bolsas","costoP":82,"costoE":0},{"sku":"B-006","nombre":"Bolsa negra x10","formato":"110x120","cat":"Bolsas","costoP":93,"costoE":0},{"sku":"B-007","nombre":"Bolsa negra x10","formato":"120x130","cat":"Bolsas","costoP":143,"costoE":0},{"sku":"B-008","nombre":"Bolsa transparente x10","formato":"50x70","cat":"Bolsas","costoP":22,"costoE":0},{"sku":"B-009","nombre":"Bolsa transparente x10","formato":"70x90","cat":"Bolsas","costoP":47,"costoE":0},{"sku":"B-010","nombre":"Bolsa transparente x10","formato":"80x110","cat":"Bolsas","costoP":71,"costoE":0},{"sku":"B-011","nombre":"Bolsa transparente x10","formato":"90x110","cat":"Bolsas","costoP":80,"costoE":0},{"sku":"B-012","nombre":"Bolsa transparente x10","formato":"90x120","cat":"Bolsas","costoP":91,"costoE":0},{"sku":"B-013","nombre":"Bolsa transparente x10","formato":"110x120","cat":"Bolsas","costoP":93,"costoE":0},{"sku":"B-014","nombre":"Bolsa transparente x10","formato":"120x130","cat":"Bolsas","costoP":160,"costoE":0},{"sku":"B-015","nombre":"Bolsa transparente x10","formato":"150x160","cat":"Bolsas","costoP":374,"costoE":0},{"sku":"B-016","nombre":"Bolsa Basura Gruesa x10","formato":"50x70","cat":"Bolsas","costoP":25,"costoE":0},{"sku":"B-017","nombre":"Bolsa Basura Gruesa x10","formato":"70x90","cat":"Bolsas","costoP":50,"costoE":0},{"sku":"B-018","nombre":"Bolsa Basura Gruesa x10","formato":"110x120","cat":"Bolsas","costoP":121,"costoE":0},{"sku":"B-019","nombre":"Bolsa Basura Gruesa x5","formato":"140x160","cat":"Bolsas","costoP":460,"costoE":0}];
 
 var cotLines=[];
 var editingId={com:null,col:null,emp:null,prod:null};
 var activeComCom='',activeColCom='';
 var activeCat='';
 var glMargin=0.50;
-var STORAGE_KEY='climpia_v5';
+var STORAGE_KEY='climpia_v7';
 
 // ══ UTILS ══
 var nextId={com:2000,col:3000,emp:9010,prod:200};
@@ -1211,9 +1462,18 @@ function updateCostoE(sku,val){
 function setCat(el,cat){
   document.querySelectorAll('.cat-sel .pill').forEach(function(p){p.classList.remove('active');});
   el.classList.add('active');activeCat=cat;renderPrices();
+  // Update count on pill
+  var count=cat?products.filter(function(p){return p.cat===cat;}).length:products.length;
+  el.textContent=el.textContent.replace(/\s*\(\d+\)/,'')+'('+count+')';
 }
 function renderPrices(){
-  var data=activeCat?products.filter(function(p){return p.cat===activeCat;}):products;
+  var ps=document.getElementById('price-search');
+  var psv=ps?ps.value.toLowerCase():'';
+  var data=products.filter(function(p){
+    var matchCat=!activeCat||p.cat===activeCat;
+    var matchSearch=!psv||[p.nombre,p.sku,p.formato,p.cat].join(' ').toLowerCase().indexOf(psv)>=0;
+    return matchCat&&matchSearch;
+  });
   document.getElementById('price-body').innerHTML=data.map(function(p){
     var cc=catClass(p.cat);
     var pvGl=pv(costoTotal(p),glMargin);
@@ -1222,13 +1482,17 @@ function renderPrices(){
       '<td style="font-weight:600">'+p.nombre+'</td>'+
       '<td>'+p.formato+'</td>'+
       '<td><span style="font-size:10px;font-weight:700;color:'+catColor(p.cat)+'">'+p.cat+'</span></td>'+
-      '<td style="background:#EEF4FB"><input class="price-input" type="number" value="'+(p.costoP||0)+'" onchange="updateCostoP(\''+p.sku+'\',this.value)" title="Costo proveedor"></td>'+
-      '<td style="background:#FBF0F5"><input class="price-input" type="number" value="'+(p.costoE||0)+'" onchange="updateCostoE(\''+p.sku+'\',this.value)" title="Costo etiqueta"></td>'+
-      '<td style="font-weight:700;color:var(--txt)">'+clp(costoTotal(p))+'</td>'+
-      '<td class="pv-cell" style="background:#F0FAF5">'+clp(pvGl)+'</td>'+
-      '<td>'+clp(pv(costoTotal(p),0.30))+'</td>'+
-      '<td>'+clp(pv(costoTotal(p),0.40))+'</td>'+
-      '<td>'+clp(pv(costoTotal(p),0.50))+'</td>'+
+      '<td style="background:#EEF4FB"><input class="price-input" type="number" value="'+(p.costoP||0)+'" onchange="updateCostoP(\''+p.sku+'\',this.value)" title="Costo proveedor — editable"></td>'+
+      '<td style="background:#FBF0F5;text-align:center">'+
+        (p.costoE>0?
+          '<input class="price-input" type="number" value="'+p.costoE+'" onchange="updateCostoE(\''+p.sku+'\',this.value)" style="width:70px;color:#993556;font-weight:700" title="Etiqueta: 1L=$84, 5L=$114">':
+          '<span style="color:var(--txt3);font-size:10px">sin etiq.</span>')+
+      '</td>'+
+      '<td style="font-weight:800;color:var(--txt);background:#F8F8F8">'+clp(costoTotal(p))+'</td>'+
+      '<td class="pv-cell" style="background:#F0FAF5;font-size:13px">'+clp(pvGl)+'</td>'+
+      '<td style="color:var(--txt2)">'+clp(pv(costoTotal(p),0.30))+'</td>'+
+      '<td style="color:var(--txt2)">'+clp(pv(costoTotal(p),0.40))+'</td>'+
+      '<td style="color:var(--txt2)">'+clp(pv(costoTotal(p),0.50))+'</td>'+
       '<td><button class="ibtn" onclick="openModal(\'producto\',\''+p.sku+'\')">Editar</button></td>'+
     '</tr>';
   }).join('');
@@ -1257,10 +1521,24 @@ function getCotMargin(){
   var v=parseInt(document.getElementById('cot-margin-slider').value)||0;
   return v/100;
 }
+var cotCat='';
+function setCotCat(el,cat){
+  el.closest('div').querySelectorAll('.pill').forEach(function(p){p.classList.remove('active');});
+  el.classList.add('active');
+  cotCat=cat;
+  renderCotCatalog();
+}
+
 function renderCotCatalog(){
   var s=document.getElementById('cot-search').value.toLowerCase();
   var m=getCotMargin();
-  var data=products.filter(function(p){return !s||[p.nombre,p.formato,p.cat,p.sku].join(' ').toLowerCase().indexOf(s)>=0;});
+  var data=products.filter(function(p){
+    var matchCat=!cotCat||p.cat===cotCat;
+    var matchSearch=!s||[p.nombre,p.formato,p.cat,p.sku].join(' ').toLowerCase().indexOf(s)>=0;
+    return matchCat&&matchSearch;
+  });
+  var countEl=document.getElementById('cot-cat-count');
+  if(countEl)countEl.textContent=data.length+' productos';
   document.getElementById('cot-prod-list').innerHTML=data.map(function(p){
     return '<div class="prod-item" onclick="addLine(\''+p.sku+'\')" style="border-left:3px solid '+catColor(p.cat)+'">'+
       '<div><div class="prod-nm">'+p.nombre+' <span style="font-size:9px;color:var(--txt2)">'+p.sku+'</span></div>'+
@@ -1540,7 +1818,16 @@ function loadState(){
     if(s.comunidades&&s.comunidades.length>=190)comunidades=s.comunidades;
     if(s.colegios&&s.colegios.length>=1491)colegios=s.colegios;
     if(s.empresas&&s.empresas.length)empresas=s.empresas;
-    if(s.products&&s.products.length>=40)products=s.products;
+    // Restore only manually edited costs per SKU, never replace full products array
+    if(s.productEdits){
+      s.productEdits.forEach(function(edit){
+        var p=products.find(function(x){return x.sku===edit.sku;});
+        if(p){
+          if(edit.costoP!==undefined)p.costoP=edit.costoP;
+          if(edit.costoE!==undefined)p.costoE=edit.costoE;
+        }
+      });
+    }
     if(s.cotLines)cotLines=s.cotLines;
     return s.savedAt;
   }catch(e){return false;}
@@ -1573,6 +1860,459 @@ function clearState(){
     document.body.innerHTML='<div style="padding:40px;font-family:sans-serif"><h2 style="color:red">Error de inicio</h2><pre style="background:#f5f5f5;padding:20px;border-radius:8px">'+err.stack+'</pre><p>Por favor comparte este error.</p></div>';
   }
 })();
+
+// ══════════ FUNCIONES HOY / HISTORIAL / COTIZACIONES ══════════
+
+var cotizacionesGuardadas=[];
+var nextCotNum=1;
+var tempHistorial=[];
+
+function saveCotizacion(){
+  var total=0,m=getCotMargin();
+  cotLines.forEach(function(l){total+=(pv(l.costo,m)+Math.round(pv(l.costo,m)*.19))*l.qty;});
+  if(!total){toast('Agrega productos primero');return;}
+  var cot={id:nextCotNum++,num:document.getElementById('cot-num').value||'COT-001',
+    cliente:document.getElementById('cot-cliente').value||'Sin nombre',
+    contacto:document.getElementById('cot-contacto').value||'',
+    email:document.getElementById('cot-email').value||'',
+    fecha:new Date().toISOString().split('T')[0],
+    valid:document.getElementById('cot-valid').value||'',margen:m,total:total,
+    estado:'Enviada',lineas:cotLines.map(function(l){return Object.assign({},l);}),
+    notas:document.getElementById('cot-notas').value||''};
+  cotizacionesGuardadas.push(cot);
+  saveState();toast('Cotización '+cot.num+' guardada ✓');renderCotizaciones();
+}
+
+function renderCotizaciones(){
+  var sEl=document.getElementById('cots-search'),eEl=document.getElementById('cots-estado');
+  var s=sEl?sEl.value.toLowerCase():'',fe=eEl?eEl.value:'';
+  var data=cotizacionesGuardadas.filter(function(c){
+    return(!s||[c.cliente,c.num].join(' ').toLowerCase().indexOf(s)>=0)&&(!fe||c.estado===fe);
+  });
+  var env=cotizacionesGuardadas.filter(function(c){return c.estado==='Enviada';}).length;
+  var acep=cotizacionesGuardadas.filter(function(c){return c.estado==='Aceptada';}).length;
+  var rech=cotizacionesGuardadas.filter(function(c){return c.estado==='Rechazada';}).length;
+  var totalVal=cotizacionesGuardadas.filter(function(c){return c.estado==='Aceptada';}).reduce(function(a,c){return a+c.total;},0);
+  var st=document.getElementById('cots-stats');
+  if(st)st.innerHTML='<div class="stat"><div class="stat-n">'+cotizacionesGuardadas.length+'</div><div class="stat-l">Total</div></div>'+
+    '<div class="stat blue"><div class="stat-n">'+env+'</div><div class="stat-l">Enviadas</div></div>'+
+    '<div class="stat green"><div class="stat-n">'+acep+'</div><div class="stat-l">Aceptadas</div></div>'+
+    '<div class="stat red"><div class="stat-n">'+rech+'</div><div class="stat-l">Rechazadas</div></div>'+
+    '<div class="stat purple"><div class="stat-n">'+clp(totalVal)+'</div><div class="stat-l">$ Acumulado</div></div>';
+  var body=document.getElementById('cots-body'),empty=document.getElementById('cots-empty');
+  if(!data.length){if(body)body.innerHTML='';if(empty)empty.style.display='block';return;}
+  if(empty)empty.style.display='none';
+  var stMap={Enviada:'cs-enviada',Aceptada:'cs-aceptada',Rechazada:'cs-rechazada',Vencida:'cs-vencida'};
+  if(body)body.innerHTML=data.map(function(c){
+    return '<div class="cot-saved-card">'+
+      '<div class="cs-header">'+
+        '<div><div class="cs-num">'+c.num+' — '+c.cliente+'</div>'+
+        '<div class="cs-meta">'+(c.contacto||'')+(c.email?' · '+c.email:'')+'</div>'+
+        '<div class="cs-meta">Fecha: '+c.fecha+(c.valid?' · Válida: '+c.valid:'')+'</div></div>'+
+        '<div style="text-align:right"><div class="cs-total">'+clp(c.total)+'</div>'+
+        '<span class="cs-status '+(stMap[c.estado]||'cs-enviada')+'">'+c.estado+'</span></div>'+
+      '</div>'+
+      '<div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap">'+
+        '<select onchange="chgCot('+c.id+',this.value)" style="font-size:11px;padding:4px 8px;border-radius:6px;border:1px solid var(--bdr2)">'+
+          '<option'+(c.estado==='Enviada'?' selected':'')+'>Enviada</option>'+
+          '<option'+(c.estado==='Aceptada'?' selected':'')+'>Aceptada</option>'+
+          '<option'+(c.estado==='Rechazada'?' selected':'')+'>Rechazada</option>'+
+          '<option'+(c.estado==='Vencida'?' selected':'')+'>Vencida</option>'+
+        '</select>'+
+        '<button class="btn" style="font-size:11px" onclick="reprCot('+c.id+')">🖨 Reimprimir</button>'+
+        '<button class="btn btn-red" style="font-size:11px" onclick="delCot('+c.id+')">🗑</button>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+
+function chgCot(id,estado){
+  var c=cotizacionesGuardadas.find(function(x){return x.id===id;});
+  if(c){c.estado=estado;saveState();renderCotizaciones();toast('Estado actualizado');}
+}
+function delCot(id){
+  if(!confirm('¿Eliminar cotización?'))return;
+  cotizacionesGuardadas=cotizacionesGuardadas.filter(function(x){return x.id!==id;});
+  saveState();renderCotizaciones();toast('Eliminada');
+}
+function reprCot(id){
+  var c=cotizacionesGuardadas.find(function(x){return x.id===id;});
+  if(!c)return;
+  cotLines=c.lineas.map(function(l){return Object.assign({},l);});
+  document.getElementById('cot-cliente').value=c.cliente;
+  document.getElementById('cot-contacto').value=c.contacto||'';
+  document.getElementById('cot-email').value=c.email||'';
+  document.getElementById('cot-num').value=c.num;
+  document.getElementById('cot-notas').value=c.notas||'';
+  document.getElementById('cot-margin-slider').value=Math.round(c.margen*100);
+  document.getElementById('cot-margin-num').value=Math.round(c.margen*100);
+  renderLines();printCot();
+}
+
+function addHistorial(prefix){
+  var tipo=document.getElementById(prefix+'-hist-tipo').value;
+  var fecha=document.getElementById(prefix+'-hist-fecha').value||new Date().toISOString().split('T')[0];
+  var nota=document.getElementById(prefix+'-hist-nota').value.trim();
+  if(!nota){toast('Escribe una nota');return;}
+  tempHistorial.push({tipo:tipo,fecha:fecha,nota:nota});
+  renderTempHistorial(prefix);
+  document.getElementById(prefix+'-hist-nota').value='';
+}
+
+function renderTempHistorial(prefix){
+  var el=document.getElementById(prefix+'-historial-list');
+  if(!el)return;
+  var tc={WhatsApp:'wsp',Email:'email',Llamada:'llamada','Reunión':'reunion','Cotización':'cotizacion',Visita:'llamada'};
+  if(!tempHistorial.length){el.innerHTML='<div style="font-size:11px;color:var(--txt2);padding:4px">Sin interacciones aún</div>';return;}
+  el.innerHTML=tempHistorial.map(function(h,i){
+    return '<div class="historial-item">'+
+      '<span class="hist-fecha">'+h.fecha+'</span>'+
+      '<span class="hist-tipo '+(tc[h.tipo]||'')+'">'+h.tipo+'</span>'+
+      '<span class="hist-nota">'+h.nota+'</span>'+
+      '<button data-idx="'+i+'" onclick="rmHst(this)" style="background:none;border:none;cursor:pointer;color:var(--red)">×</button>'+
+    '</div>';
+  }).join('');
+}
+
+function rmHst(btn){
+  tempHistorial.splice(parseInt(btn.getAttribute('data-idx')),1);
+  document.querySelectorAll('[id$="-historial-list"]').forEach(function(el){
+    renderTempHistorial(el.id.replace('-historial-list',''));
+  });
+}
+
+function renderHoy(){
+  var filterEl=document.getElementById('hoy-filter');
+  var filter=filterEl?filterEl.value:'hoy';
+  var hoy=new Date();hoy.setHours(0,0,0,0);
+  var semana=new Date(hoy);semana.setDate(semana.getDate()+7);
+  var todas=[];
+  comunidades.forEach(function(c){if(c.accion&&c.fechaAccion)todas.push(Object.assign({},c,{_tipo:'comunidad'}));});
+  empresas.forEach(function(e){if(e.accion&&e.fechaAccion)todas.push(Object.assign({},e,{_tipo:'empresa'}));});
+  var filtradas=todas.filter(function(c){
+    var f=new Date(c.fechaAccion);f.setHours(0,0,0,0);
+    if(filter==='hoy')return f<=hoy;
+    if(filter==='semana')return f<=semana;
+    return true;
+  });
+  filtradas.sort(function(a,b){return new Date(a.fechaAccion)-new Date(b.fechaAccion);});
+  var venc=filtradas.filter(function(c){var f=new Date(c.fechaAccion);f.setHours(0,0,0,0);return f<hoy;}).length;
+  var deHoy=filtradas.filter(function(c){var f=new Date(c.fechaAccion);f.setHours(0,0,0,0);return f.getTime()===hoy.getTime();}).length;
+  var prox=filtradas.filter(function(c){var f=new Date(c.fechaAccion);f.setHours(0,0,0,0);return f>hoy;}).length;
+  var st=document.getElementById('hoy-stats');
+  if(st)st.innerHTML=
+    '<div class="stat red"><div class="stat-n">'+venc+'</div><div class="stat-l">Vencidas</div></div>'+
+    '<div class="stat amber"><div class="stat-n">'+deHoy+'</div><div class="stat-l">Para hoy</div></div>'+
+    '<div class="stat blue"><div class="stat-n">'+prox+'</div><div class="stat-l">Próximas</div></div>'+
+    '<div class="stat"><div class="stat-n">'+filtradas.length+'</div><div class="stat-l">Total</div></div>';
+  var grid=document.getElementById('hoy-grid');
+  if(!grid)return;
+  if(!filtradas.length){
+    grid.innerHTML='<div class="empty-msg">¡Sin tareas pendientes! 🎉<br><span style="font-size:11px;color:var(--txt2)">Agrega próximas acciones desde Comunidades o Empresas</span></div>';
+    return;
+  }
+  var ico={comunidad:'🏢',empresa:'🧹',colegio:'🏫'};
+  grid.innerHTML=filtradas.map(function(c){
+    var f=new Date(c.fechaAccion);f.setHours(0,0,0,0);
+    var diff=Math.round((f-hoy)/(1000*60*60*24));
+    var cls=diff<0?'vencida':diff===0?'hoy':'proxima';
+    var fl=diff<0?'Vencida hace '+Math.abs(diff)+'d':diff===0?'HOY':'En '+diff+' días';
+    var tipo=c._tipo;
+    var wspNum=(c.tel||'').replace(/[^0-9]/g,'');
+    var wspLink=wspNum?'<a class="wsp-btn" href="https://wa.me/56'+wspNum.replace(/^56/,'')+'" target="_blank" onclick="event.stopPropagation()">💬 WhatsApp</a>':'';
+    return '<div class="tarea-card '+cls+'" data-tipo="'+tipo+'" data-id="'+c.id+'" onclick="gtr(this)">'+
+      '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">'+
+        '<div class="tarea-nombre">'+ico[tipo]+' '+c.nombre+'</div>'+
+        '<div class="tarea-fecha '+cls+'">'+fl+'</div>'+
+      '</div>'+
+      '<div class="tarea-accion">📋 '+c.accion+'</div>'+
+      (c.monto?'<div style="font-size:11px;color:var(--g);font-weight:700;margin-top:4px">💲 '+clp(parseInt(c.monto))+'/mes</div>':'')+
+      '<div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap" onclick="event.stopPropagation()">'+
+        wspLink+
+        '<button class="ibtn" data-mh-tipo="'+tipo+'" data-mh-id="'+c.id+'" onclick="mhBtn(this)">✓ Hecho</button>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+
+function mhBtn(el){
+  var tipo=el.getAttribute('data-mh-tipo');
+  var id=parseInt(el.getAttribute('data-mh-id'));
+  var arr=tipo==='comunidad'?comunidades:empresas;
+  var c=arr.find(function(x){return x.id===id;});
+  if(c){c.accion='';c.fechaAccion='';saveState();renderHoy();toast('¡Hecho! ✓');}
+}
+
+function exportWSP(){
+  if(!cotLines.length){toast('Agrega productos primero');return;}
+  var cliente=document.getElementById('cot-cliente').value||'Cliente';
+  var m=getCotMargin();
+  var lineas=cotLines.map(function(l){
+    var pu=pv(l.costo,m),puiva=pu+Math.round(pu*.19);
+    return '• '+l.nombre+' '+l.formato+' x'+l.qty+' = '+clp(puiva*l.qty);
+  }).join('\n');
+  var sub=cotLines.reduce(function(a,l){return a+pv(l.costo,m)*l.qty;},0);
+  var msg='Hola '+cliente+', cotización C-Limpia:\n\n'+lineas+'\n\n*Total c/IVA: '+clp(sub+Math.round(sub*.19))+'*\n\nJuan Morandé | +56 9 9162 7151';
+  window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');
+}
+
+// Update loadState for new fields
+var _origLoadState=loadState;
+loadState=function(){
+  var result=_origLoadState();
+  try{
+    var raw=localStorage.getItem(STORAGE_KEY);
+    if(raw){
+      var s=JSON.parse(raw);
+      if(s.cotizacionesGuardadas)cotizacionesGuardadas=s.cotizacionesGuardadas;
+      if(s.nextCotNum)nextCotNum=s.nextCotNum;
+    }
+  }catch(e){}
+  return result;
+};
+
+// Update saveState for new fields  
+var _origSaveState=saveState;
+saveState=function(){
+  _origSaveState();
+  try{
+    var raw=localStorage.getItem(STORAGE_KEY);
+    if(raw){
+      var s=JSON.parse(raw);
+      s.cotizacionesGuardadas=cotizacionesGuardadas;
+      s.nextCotNum=nextCotNum;
+      localStorage.setItem(STORAGE_KEY,JSON.stringify(s));
+    }
+  }catch(e){}
+};
+
+// Wire up showPage for new tabs
+var _origShowPage=showPage;
+showPage=function(id,el){
+  _origShowPage(id,el);
+  if(id==='p-hoy')renderHoy();
+  if(id==='p-cotizaciones')renderCotizaciones();
+};
+
+// Init new pages
+renderHoy();
+renderCotizaciones();
+
+
+// ══════════ IA COTIZACIÓN INTELIGENTE ══════════
+var iaLines = [];
+
+function iaMarginSync(src){
+  var sl=document.getElementById('ia-margin-slider');
+  var nm=document.getElementById('ia-margin-num');
+  if(!sl||!nm)return;
+  var val;
+  if(src==='slider'){val=parseInt(sl.value);nm.value=val;}
+  else{val=Math.min(100,Math.max(0,parseInt(nm.value)||0));sl.value=val;}
+  renderIALines();
+}
+
+function getIAMargin(){
+  var sl=document.getElementById('ia-margin-slider');
+  return sl?parseInt(sl.value)/100:0.40;
+}
+
+function renderIALines(){
+  var m=getIAMargin();
+  var body=document.getElementById('ia-lines-body');
+  if(!body||!iaLines.length)return;
+  var sub=0;
+  body.innerHTML=iaLines.map(function(l){
+    var pu=pv(l.costo,m);
+    var iva=Math.round(pu*.19);
+    var puiva=pu+iva;
+    var tot=puiva*l.qty;
+    sub+=pu*l.qty;
+    return '<tr>'+
+      '<td style="font-weight:600">'+l.nombre+'</td>'+
+      '<td style="font-size:11px">'+l.formato+'</td>'+
+      '<td style="font-size:12px">'+l.qty+'</td>'+
+      '<td>'+clp(pu)+'</td>'+
+      '<td style="font-size:11px">'+clp(iva)+'</td>'+
+      '<td style="font-weight:700">'+clp(tot)+'</td>'+
+    '</tr>';
+  }).join('');
+  var ivaT=Math.round(sub*.19);
+  var costo=iaLines.reduce(function(a,l){return a+l.costo*l.qty;},0);
+  document.getElementById('ia-sub').textContent=clp(sub);
+  document.getElementById('ia-iva').textContent=clp(ivaT);
+  document.getElementById('ia-total').textContent=clp(sub+ivaT);
+  document.getElementById('ia-margen').textContent=clp(sub-costo)+' ('+Math.round(m*100)+'%)';
+}
+
+async function procesarConIA(){
+  var texto=document.getElementById('ia-input').value.trim();
+  if(!texto){toast('Pega el correo o lista primero');return;}
+  
+  // Check if running locally - proxy still works but let user know
+  if(window.location.protocol==='file:'){
+    console.log('Running from local file - proxy should still work');
+  }
+
+  // Build product catalog summary for the prompt
+  var catalogoResumen=products.map(function(p){
+    return p.sku+' | '+p.nombre+' | '+p.formato+' | '+p.cat;
+  }).join('\n');
+
+  var prompt='Eres un asistente de ventas de C-Limpia, empresa de higiene industrial chilena.\n\n'+
+    'El cliente envió este mensaje:\n---\n'+texto+'\n---\n\n'+
+    'Tu catálogo de productos es:\n'+catalogoResumen+'\n\n'+
+    'INSTRUCCIONES:\n'+
+    '1. Extrae cada producto y cantidad mencionados\n'+
+    '2. Mapea cada uno al SKU más cercano del catálogo\n'+
+    '3. Si no hay coincidencia exacta, usa el más parecido\n'+
+    '4. Responde SOLO con JSON válido, sin texto extra:\n'+
+    '{\n'+
+    '  "lineas": [\n'+
+    '    {"sku":"Q-001","cantidad":50,"nombre_solicitado":"Cloro 5L"},\n'+
+    '    ...\n'+
+    '  ],\n'+
+    '  "no_encontrados": ["Guante anticorte azul","Embudo"],\n'+
+    '  "resumen": "Texto breve explicando el mapeo"\n'+
+    '}';
+
+  // Show loading
+  var btn=document.getElementById('ia-btn');
+  var loading=document.getElementById('ia-loading');
+  btn.style.display='none';
+  loading.style.display='block';
+  document.getElementById('ia-result').innerHTML='<span style="color:var(--txt2)">Procesando...</span>';
+
+  try{
+    var response=await fetch('https://climpia-proxy.jmorande-166.workers.dev',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-5',
+        max_tokens:1000,
+        messages:[{role:'user',content:prompt}]
+      })
+    });
+
+    var data=await response.json();
+    
+    // Check for API errors
+    if(data.error){
+      throw new Error('API Error: '+data.error.message||JSON.stringify(data.error));
+    }
+    if(!data.content||!Array.isArray(data.content)){
+      throw new Error('Respuesta inesperada: '+JSON.stringify(data).substring(0,200));
+    }
+    
+    var rawText=data.content.map(function(b){return b.text||'';}).join('');
+
+    // Clean JSON
+    var jsonStr=rawText.replace(/```json|```/g,'').trim();
+    var parsed=JSON.parse(jsonStr);
+
+    // Build lines from parsed
+    iaLines=[];
+    var matched=[];
+    var noMatch=parsed.no_encontrados||[];
+
+    (parsed.lineas||[]).forEach(function(l){
+      var prod=products.find(function(p){return p.sku===l.sku;});
+      if(prod){
+        iaLines.push({
+          sku:prod.sku,nombre:prod.nombre,formato:prod.formato,
+          qty:parseInt(l.cantidad)||1,costo:costoTotal(prod)
+        });
+        matched.push('✓ '+l.nombre_solicitado+' → '+prod.nombre+' ('+prod.sku+')');
+      } else {
+        noMatch.push(l.nombre_solicitado||l.sku);
+      }
+    });
+
+    // Show result summary
+    var resultHtml='<div style="font-weight:600;margin-bottom:8px;color:var(--g)">'+
+      matched.length+' productos mapeados correctamente:</div>'+
+      matched.map(function(m){return '<div class="ia-match">'+m+'</div>';}).join('');
+
+    if(parsed.resumen){
+      resultHtml+='<div style="margin-top:10px;font-size:11px;color:var(--txt2);font-style:italic">'+parsed.resumen+'</div>';
+    }
+    document.getElementById('ia-result').innerHTML=resultHtml;
+
+    // No match panel
+    var nmPanel=document.getElementById('ia-no-match-panel');
+    var nmList=document.getElementById('ia-no-match-list');
+    if(noMatch.length){
+      nmPanel.style.display='block';
+      nmList.innerHTML=noMatch.map(function(n){
+        return '<div class="ia-nomatch">⚠️ '+n+' — no encontrado en catálogo</div>';
+      }).join('');
+    } else {
+      nmPanel.style.display='none';
+    }
+
+    // Show cotización panel
+    if(iaLines.length){
+      document.getElementById('ia-cot-panel').style.display='block';
+      renderIALines();
+      // Set cliente
+      var clienteEl=document.getElementById('ia-cliente');
+      if(clienteEl&&clienteEl.value){
+        // good
+      }
+    }
+
+  }catch(err){
+    document.getElementById('ia-result').innerHTML=
+      '<div style="color:var(--red)">Error: '+err.message+'<br><small>Verifica tu conexión a internet</small></div>';
+  }finally{
+    btn.style.display='flex';
+    loading.style.display='none';
+  }
+}
+
+function pasarACotizacion(){
+  if(!iaLines.length){toast('Primero procesa un correo');return;}
+  // Pass lines to main cotización
+  cotLines=iaLines.map(function(l){return Object.assign({},l);});
+  var cliente=document.getElementById('ia-cliente').value||'';
+  document.getElementById('cot-cliente').value=cliente;
+  document.getElementById('cot-margin-slider').value=document.getElementById('ia-margin-slider').value;
+  document.getElementById('cot-margin-num').value=document.getElementById('ia-margin-num').value;
+  renderLines();
+  // Navigate to cotizar
+  var pills=document.querySelectorAll('.nav-pill');
+  pills.forEach(function(p){p.classList.remove('active');});
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+  document.getElementById('p-cotizar').classList.add('active');
+  pills.forEach(function(p){if(p.textContent.includes('Cotización') && !p.textContent.includes('Mis'))p.classList.add('active');});
+  renderCotCatalog();
+  toast('¡Cotización cargada! Revisa y ajusta antes de imprimir');
+}
+
+function imprimirIACot(){
+  if(!iaLines.length)return;
+  var savedLines=cotLines;
+  var savedCliente=document.getElementById('cot-cliente').value;
+  cotLines=iaLines.map(function(l){return Object.assign({},l);});
+  document.getElementById('cot-cliente').value=document.getElementById('ia-cliente').value||'Cliente';
+  var m=getIAMargin();
+  document.getElementById('cot-margin-slider').value=Math.round(m*100);
+  printCot();
+  cotLines=savedLines;
+  document.getElementById('cot-cliente').value=savedCliente;
+}
+
+function guardarIACot(){
+  if(!iaLines.length)return;
+  var savedLines=cotLines;
+  cotLines=iaLines.map(function(l){return Object.assign({},l);});
+  var savedCliente=document.getElementById('cot-cliente').value;
+  document.getElementById('cot-cliente').value=document.getElementById('ia-cliente').value||'Cliente';
+  saveCotizacion();
+  cotLines=savedLines;
+  document.getElementById('cot-cliente').value=savedCliente;
+}
+
 </script>
 </body>
 </html>
