@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0042)file:///Users/juan/Downloads/index_30.html -->
+<!-- saved from url=(0042)file:///Users/juan/Downloads/index_32.html -->
 <html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -395,12 +395,12 @@ input[type=range]{accent-color:var(--g);width:130px}
   <div class="nav-pills">
     <button class="nav-pill" onclick="showPage(&#39;p-dashboard&#39;,this)">📊 Dashboard</button>
     <button class="nav-pill" onclick="showPage(&#39;p-hoy&#39;,this)">📅 Hoy</button>
-    <button class="nav-pill" onclick="showPage(&#39;p-comunidades&#39;,this)">🏢 Comunidades</button>
+    <button class="nav-pill active" onclick="showPage(&#39;p-comunidades&#39;,this)">🏢 Comunidades</button>
     <button class="nav-pill" onclick="showPage(&#39;p-colegios&#39;,this)">🏫 Colegios</button>
     <button class="nav-pill" onclick="showPage(&#39;p-empresas&#39;,this)">🧹 Empresas</button>
     <button class="nav-pill" onclick="showPage(&#39;p-precios&#39;,this)">💲 Precios</button>
     <button class="nav-pill" onclick="showPage(&#39;p-cotizar&#39;,this)">📄 Cotización</button>
-    <button class="nav-pill active" onclick="showPage(&#39;p-cotizaciones&#39;,this)">📋 Mis Cotizaciones</button>
+    <button class="nav-pill" onclick="showPage(&#39;p-cotizaciones&#39;,this)">📋 Mis Cotizaciones</button>
     <button class="nav-pill" onclick="showPage(&#39;p-ia&#39;,this)" style="background:linear-gradient(135deg,#0F6E56,#534AB7);color:#fff">✨ Cotizar con IA</button>
   </div>
   <div class="global-search-wrap">
@@ -408,12 +408,12 @@ input[type=range]{accent-color:var(--g);width:130px}
     <div id="global-results" class="global-results"></div>
   </div>
   <div class="topnav-right">
-    <span id="save-info">✓ 07-05-2026 12:24 p.&nbsp;m.</span>
+    <span id="save-info">☁️ Sincronizado desde nube</span>
   </div>
 </nav>
 
 <!-- ══════════ COMUNIDADES ══════════ -->
-<div class="page" id="p-comunidades">
+<div class="page active" id="p-comunidades">
   <div class="sec-header">
     <div><div class="sec-title">Comunidades Residenciales</div>
     <div class="sec-sub">Edificios · Condominios · Campaña Abril 2026</div></div>
@@ -493,7 +493,7 @@ input[type=range]{accent-color:var(--g);width:130px}
 </div>
 
 <!-- ══════════ COTIZACIONES GUARDADAS ══════════ -->
-<div class="page active" id="p-cotizaciones">
+<div class="page" id="p-cotizaciones">
   <div class="sec-header">
     <div><div class="sec-title">Mis Cotizaciones</div>
     <div class="sec-sub">Historial de cotizaciones enviadas — control de estado</div></div>
@@ -564,31 +564,31 @@ input[type=range]{accent-color:var(--g);width:130px}
       <select id="dash-year" onchange="renderDashboard()" style="font-size:12px;padding:5px 10px;border-radius:20px;border:1px solid var(--bdr2);background:var(--card)"></select>
     </div>
   </div>
-  <div class="stats" id="dash-stats"></div>
+  <div class="stats" id="dash-stats"><div class="stat"><div class="stat-n">3</div><div class="stat-l">Total cotizaciones</div></div><div class="stat green"><div class="stat-n">0</div><div class="stat-l">Aceptadas</div></div><div class="stat purple"><div class="stat-n">$0</div><div class="stat-l">$ Facturado</div></div><div class="stat blue"><div class="stat-n">0%</div><div class="stat-l">Tasa conversión</div></div></div>
   <div class="dash-grid">
     <div class="dash-card" style="grid-column:span 2">
       <h4>📅 Ventas por mes — comparativo</h4>
-      <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap" id="dash-year-pills"></div>
-      <div class="month-bar" id="dash-bars"></div>
+      <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap" id="dash-year-pills"><div class="pill active" style="font-size: 11px;">2026</div></div>
+      <div class="month-bar" id="dash-bars"><div style="flex: 1 1 0%; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; gap: 2px;"><div title="2026 Ene: $0" style="width: 100%; height: 0px; background: var(--g); border-radius: 3px 3px 0px 0px; opacity: 0.85;"></div><div style="font-size: 9px; color: var(--txt2); margin-top: 4px; text-align: center;">Ene</div></div><div style="flex: 1 1 0%; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; gap: 2px;"><div title="2026 Feb: $0" style="width: 100%; height: 0px; background: var(--g); border-radius: 3px 3px 0px 0px; opacity: 0.85;"></div><div style="font-size: 9px; color: var(--txt2); margin-top: 4px; text-align: center;">Feb</div></div><div style="flex: 1 1 0%; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; gap: 2px;"><div title="2026 Mar: $0" style="width: 100%; height: 0px; background: var(--g); border-radius: 3px 3px 0px 0px; opacity: 0.85;"></div><div style="font-size: 9px; color: var(--txt2); margin-top: 4px; text-align: center;">Mar</div></div><div style="flex: 1 1 0%; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; gap: 2px;"><div title="2026 Abr: $841.448" style="width: 100%; height: 72px; background: var(--g); border-radius: 3px 3px 0px 0px; opacity: 0.85;"></div><div style="font-size: 9px; color: var(--txt2); margin-top: 4px; text-align: center;">Abr</div></div><div style="flex: 1 1 0%; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; gap: 2px;"><div title="2026 May: $56.580" style="width: 100%; height: 4.84137px; background: var(--g); border-radius: 3px 3px 0px 0px; opacity: 0.85;"></div><div style="font-size: 9px; color: var(--txt2); margin-top: 4px; text-align: center;">May</div></div><div style="flex: 1 1 0%; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; gap: 2px;"><div title="2026 Jun: $0" style="width: 100%; height: 0px; background: var(--g); border-radius: 3px 3px 0px 0px; opacity: 0.85;"></div><div style="font-size: 9px; color: var(--txt2); margin-top: 4px; text-align: center;">Jun</div></div><div style="flex: 1 1 0%; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; gap: 2px;"><div title="2026 Jul: $0" style="width: 100%; height: 0px; background: var(--g); border-radius: 3px 3px 0px 0px; opacity: 0.85;"></div><div style="font-size: 9px; color: var(--txt2); margin-top: 4px; text-align: center;">Jul</div></div><div style="flex: 1 1 0%; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; gap: 2px;"><div title="2026 Ago: $0" style="width: 100%; height: 0px; background: var(--g); border-radius: 3px 3px 0px 0px; opacity: 0.85;"></div><div style="font-size: 9px; color: var(--txt2); margin-top: 4px; text-align: center;">Ago</div></div><div style="flex: 1 1 0%; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; gap: 2px;"><div title="2026 Sep: $0" style="width: 100%; height: 0px; background: var(--g); border-radius: 3px 3px 0px 0px; opacity: 0.85;"></div><div style="font-size: 9px; color: var(--txt2); margin-top: 4px; text-align: center;">Sep</div></div><div style="flex: 1 1 0%; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; gap: 2px;"><div title="2026 Oct: $0" style="width: 100%; height: 0px; background: var(--g); border-radius: 3px 3px 0px 0px; opacity: 0.85;"></div><div style="font-size: 9px; color: var(--txt2); margin-top: 4px; text-align: center;">Oct</div></div><div style="flex: 1 1 0%; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; gap: 2px;"><div title="2026 Nov: $0" style="width: 100%; height: 0px; background: var(--g); border-radius: 3px 3px 0px 0px; opacity: 0.85;"></div><div style="font-size: 9px; color: var(--txt2); margin-top: 4px; text-align: center;">Nov</div></div><div style="flex: 1 1 0%; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; gap: 2px;"><div title="2026 Dic: $0" style="width: 100%; height: 0px; background: var(--g); border-radius: 3px 3px 0px 0px; opacity: 0.85;"></div><div style="font-size: 9px; color: var(--txt2); margin-top: 4px; text-align: center;">Dic</div></div></div>
       <div style="margin-top:24px;display:flex;justify-content:space-between;font-size:10px;color:var(--txt2)" id="dash-month-labels"></div>
     </div>
     <div class="dash-card">
       <h4>🏆 Top clientes</h4>
-      <div id="dash-top-clients"></div>
+      <div id="dash-top-clients"><div class="client-rank"><div class="client-rank-n">1</div><div><div class="client-rank-name">Administración y Gestión Lauri SpA</div><div style="font-size:10px;color:var(--txt2)">1 cotiz.</div></div><div class="client-rank-val">$596.446</div></div><div class="client-rank"><div class="client-rank-n">2</div><div><div class="client-rank-name">Colegio Ingles San Jose de Linderos</div><div style="font-size:10px;color:var(--txt2)">1 cotiz.</div></div><div class="client-rank-val">$245.002</div></div><div class="client-rank"><div class="client-rank-n">3</div><div><div class="client-rank-name">Edificio Marbellla</div><div style="font-size:10px;color:var(--txt2)">1 cotiz.</div></div><div class="client-rank-val">$56.580</div></div></div>
     </div>
   </div>
   <div class="dash-grid">
     <div class="dash-card">
       <h4>📈 Cotización más alta</h4>
-      <div id="dash-max"></div>
+      <div id="dash-max"><div class="dash-big">$596.446</div><div class="dash-sub">Administración y Gestión Lauri SpA · COT-Lauri-001</div></div>
     </div>
     <div class="dash-card">
       <h4>📉 Cotización más baja</h4>
-      <div id="dash-min"></div>
+      <div id="dash-min"><div class="dash-big" style="color:var(--red)">$56.580</div><div class="dash-sub">Edificio Marbellla · COT-2026-001</div></div>
     </div>
     <div class="dash-card">
       <h4>📊 Promedio por cotización</h4>
-      <div id="dash-avg"></div>
+      <div id="dash-avg"><div class="dash-big" style="color:var(--blue)">$299.343</div><div class="dash-sub">Promedio por cotización</div></div>
     </div>
   </div>
 </div>
@@ -2909,18 +2909,19 @@ async function kvLoad() {
   try {
     var res = await fetch(KV_URL + '?key=cotizaciones');
     var text = await res.text();
-    if (!text || text === '[]') return;
+    if (!text || text === '[]' || text === 'null') return;
     var data = JSON.parse(text);
-    if (data.cotizacionesGuardadas && data.cotizacionesGuardadas.length > 0) {
+    // Only load from KV if it has MORE or EQUAL cotizaciones than current
+    if (data.cotizacionesGuardadas && data.cotizacionesGuardadas.length >= cotizacionesGuardadas.length && data.cotizacionesGuardadas.length > 0) {
       cotizacionesGuardadas = data.cotizacionesGuardadas;
+      if (data.nextCotNum && data.nextCotNum > nextCotNum) nextCotNum = data.nextCotNum;
+      if (data.tareasManuales) tareasManuales = data.tareasManuales;
+      renderCotizaciones();
+      renderDashboard();
+      renderHoy();
+      var el = document.getElementById('save-info');
+      if (el) el.textContent = '☁️ Sincronizado desde nube';
     }
-    if (data.nextCotNum) nextCotNum = data.nextCotNum;
-    if (data.tareasManuales) tareasManuales = data.tareasManuales;
-    renderCotizaciones();
-    renderDashboard();
-    renderHoy();
-    var el = document.getElementById('save-info');
-    if (el) el.textContent = '☁️ Datos cargados desde nube';
   } catch(e) {
     console.warn('KV load error:', e);
   }
@@ -2955,9 +2956,16 @@ importarPDFs = async function(input) {
   await kvSave();
 };
 
-// Load from KV on startup (after local data loads)
-setTimeout(function() {
-  kvLoad();
+// Load from KV on startup, then save current data if KV is empty
+setTimeout(async function() {
+  var resBefore = await fetch(KV_URL + '?key=cotizaciones').then(function(r){return r.text();}).catch(function(){return '[]';});
+  var kvEmpty = !resBefore || resBefore === '[]' || resBefore === 'null';
+  if (kvEmpty && cotizacionesGuardadas.length > 0) {
+    // KV is empty but we have cotizaciones — save them to KV
+    await kvSave();
+  } else {
+    await kvLoad();
+  }
 }, 1500);
 
 </script>
